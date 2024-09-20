@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<head>
+    <title>Stock Report</title>
+</head>
+{% include 'navbar.html' %}
+<body>
+    {% if error_message %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    
+    <h1 class="text-xl font-bold mb-4">Stock Report</h1>
+    
+    <!-- <form method="POST">
+        {% csrf_token %}
+        <label for="item" class="block text-gray-700 text-sm font-bold mb-2">Select Item:</label>
+        <select name="item" id="item" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <option value="">All Items</option>
+            {% for item in report_data %}
+            <option value="{{ item.item_name }}">{{ item.item_name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Submit</button>
+    </form> -->
+
+    {% if report_data %}
+        <table class="table-auto w-full mt-6">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Item Name</th>
+                    <th class="px-4 py-2">Purchase Quantity</th>
+                    <th class="px-4 py-2">Sales Quantity</th>
+                    <th class="px-4 py-2">Available Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in report_data %}
+                <tr>
+                    <td class="border px-4 py-2">{{ data.item_name }}</td>
+                    <td class="border px-4 py-2">{{ data.purchase_quantity }}</td>
+                    <td class="border px-4 py-2">{{ data.sales_quantity }}</td>
+                    <td class="border px-4 py-2">{{ data.available_stock }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>

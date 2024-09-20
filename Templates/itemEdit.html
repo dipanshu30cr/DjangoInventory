@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Item</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #a2c2e0, #f7f7f7);
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .card {
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .card-header {
+            background: #ff6f61;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            padding: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+        }
+        .btn-primary:hover {
+            background-color: #d084a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Edit Item</h3>
+            </div>
+            <form id="editItemForm" action="{% url 'itemEdit' item.ItemId %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="ItemName">Item Name</label>
+                    <input type="text" class="form-control" id="ItemName" name="ItemName" 
+                           value="{{ item.ItemName }}" required oninput="validateItemName(this)">
+                    <small id="nameError" class="text-danger" style="display: none;">Please enter alphabets only.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="ItemRate">Item Rate</label>
+                    <input type="number" class="form-control" id="ItemRate" name="ItemRate" min="1" 
+                           value="{{ item.ItemRate }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validateItemName(input) {
+            const pattern = /^[A-Za-z\s]*$/;  
+            const value = input.value;
+            
+            if (!pattern.test(value)) {
+                document.getElementById('nameError').style.display = 'block';
+                return false;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+                return true;
+            }
+        }
+
+        document.getElementById('editItemForm').addEventListener('submit', function(event) {
+            const itemNameInput = document.getElementById('ItemName');
+            
+            if (!validateItemName(itemNameInput)) {
+                alert('Item Name contains invalid characters. Only alphabets and spaces are allowed.');
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

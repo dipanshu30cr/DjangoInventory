@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>User Sessions Report</title>
+</head>
+{% include 'navbarLogin.html' %}
+<body>
+    <h1 class="text-xl font-bold mb-4">User Sessions Report</h1>
+    {% if report_data %}
+        <table class="table-auto w-full mt-6">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Name</th>
+                    <th class="px-4 py-2">UserName</th>
+                    <th class="px-4 py-2">Login Time</th>
+                    <th class="px-4 py-2">Logout Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in report_data %}
+                <tr>
+                    <td class="border px-4 py-2">{{ data.user.name }}</td>
+                    <td class="border px-4 py-2">{{ data.user.userName }}</td>
+                    <td class="border px-4 py-2">{{ data.login_time }}</td>
+                    <td class="border px-4 py-2">{{ data.logout_time|default:"Still logged in" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No session data available.</p>
+    {% endif %}
+</body>
+</html>
